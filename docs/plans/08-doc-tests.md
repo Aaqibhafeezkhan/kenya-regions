@@ -1,6 +1,6 @@
 # 08. Documentation tests
 
-**Priority: 8. Status: not started.**
+**Priority: 8. Status: in progress.**
 
 ## The problem
 

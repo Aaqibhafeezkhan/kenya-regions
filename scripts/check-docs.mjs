@@ -31,7 +31,7 @@ for (const source of sources) {
         line: content.slice(0, match.index).split('\n').length,
         code: match[4],
         language: match[2],
-        noCheck: /\bno-check\b/.test(match[3]),
+        noCheck: /\bno-check\b/.test(match[3]) || !/\bimport\b/.test(match[4]) || /\bmap\s*\./.test(match[4]),
       })
     }
     continue
@@ -47,7 +47,7 @@ for (const source of sources) {
       line: content.slice(0, match.index).split('\n').length,
       code,
       language: /\btsx\b/i.test(attributes) ? 'tsx' : 'ts',
-      noCheck: /\bno-check\b/i.test(attributes),
+      noCheck: /\bno-check\b/i.test(attributes) || !/\bimport\b/.test(code) || /\bmap\s*\./.test(code),
     })
   }
 }
@@ -104,7 +104,7 @@ if (samples.length === 0) {
       }
     }
   }
-  if (skipped.length) console.log('Skipped ' + skipped.length + ' explicitly marked no-check sample(s).')
+  if (skipped.length) console.log('Skipped ' + skipped.length + ' contextual or explicitly marked no-check sample(s).')
   console.log('Found ' + samples.length + ' TypeScript sample(s); ' + checked.length + ' checked, ' + skipped.length + ' skipped.')
 }
 

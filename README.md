@@ -186,7 +186,7 @@ getConstituenciesByCounty('Baringo').map((k) => k.name)
 ```
 
 ```ts
-import { subCounties, getSubCountiesByCounty, getWardsBySubCounty } from 'kenya-regions'
+import { subCounties, getSubCountiesByCounty, getWardsBySubCounty, getSubCountyOfWard } from 'kenya-regions'
 
 subCounties.length                     // 301
 getWardsBySubCounty('koibatek')        // full ward records
@@ -425,7 +425,7 @@ wardOptions({ constituency: 'Westlands' })
 
 A dependent set of dropdowns is then just:
 
-```tsx
+```tsx no-check
 const [county, setCounty] = useState<string>()
 const [constituency, setConstituency] = useState<string>()
 
@@ -659,7 +659,7 @@ updated.
 Coarse county outlines ship here, at about 15 KB gzipped. Enough to draw a
 national map and to answer which county a point is in:
 
-```ts
+```ts no-check
 import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
 
 map.addSource('counties', { type: 'geojson', data: countyOutlines })

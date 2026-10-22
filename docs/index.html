@@ -1278,7 +1278,7 @@ isPostalCode('00100')                 // true</code></pre></div>
         <h2>Geometry</h2>
         <div class="prose">
           <p>Coarse county outlines ship with this package, at about 15 KB gzipped. Enough to draw a national map and to answer which county a point falls in.</p>
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
+          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code data-no-check>import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
 
 map.addSource('counties', { type: 'geojson', data: countyOutlines })
 

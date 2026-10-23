@@ -1,6 +1,6 @@
 # 08. Documentation tests
 
-**Priority: 8. Status: in progress.**
+**Priority: 8. Status: done.**
 
 ## The problem
 
@@ -26,6 +26,8 @@ Samples that cannot compile standalone get marked:
     ```ts no-check
     // illustrative, not a complete program
     ```
+
+For `docs/index.html`, append `no-check` to the visible language label in the block's `code-bar` (for example, `typescript no-check`).
 
 ## How you would know it worked
 

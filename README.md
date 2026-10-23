@@ -83,7 +83,7 @@ international datasets group by:
 `kenya.subdivisions` and `kenya.legislature` are **derived at build time** from
 the actual datasets rather than typed in, so they cannot drift:
 
-```ts
+```ts no-check
 kenya.subdivisions.wards                            // 1450
 kenya.legislature.nationalAssembly.total            // 349
 kenya.legislature.senate.total                      // 67
@@ -177,7 +177,7 @@ They overlap heavily but not completely: **248 of the 301 share a name with a
 constituency, and 53 do not.** Baringo shows it plainly. Six of
 each, and not the same six:
 
-```ts
+```ts no-check
 getSubCountiesByCounty('Baringo').map((s) => s.name)
 // Baringo Central, Baringo North, Koibatek, Marigat, Mogotio, Tiaty
 
@@ -281,7 +281,7 @@ geographically.** They are not the same number:
 | Baringo | `30` | `KE-01` |
 | Nairobi | `47` | `KE-30` |
 
-```ts
+```ts no-check
 getCounty(30).name        // 'Baringo'
 getCounty('KE-30').name   // 'Nairobi'  ← different county
 ```
@@ -299,7 +299,7 @@ The humanitarian standard, used by ReliefWeb, HDX, IPC and most NGO datasets.
 These *do* follow the constitutional numbering: `KE047` is Nairobi county and
 `KE047275` is Dagoretti North.
 
-```ts
+```ts no-check
 fromPcode('KE047')     // Nairobi county
 fromPcode('KE047275')  // Dagoretti North constituency
 ```
@@ -322,7 +322,7 @@ A functional rather than administrative classification, used for drought
 response and food security programming. 23 counties are ASAL: 9 arid and 14
 semi-arid. They cover over 80% of Kenya's land area.
 
-```ts
+```ts no-check
 getAsalCounties().length          // 23
 getAsalCounties('arid').length    // 9
 ```
@@ -359,7 +359,7 @@ import { countiesByName } from 'kenya-regions'   // alphabetical, for UIs
 `getCounty` accepts anything that identifies a county: code, zero-padded code,
 ISO code, p-code, name, slug or former name.
 
-```ts
+```ts no-check
 getCounty(47), getCounty('047'), getCounty('KE-30'), getCounty('KE047'),
 getCounty('Nairobi'), getCounty('nairobi'), getCounty('Nairobi City')
 // → all the same county
@@ -373,7 +373,7 @@ Each has a `require*` variant that throws instead of returning `undefined`:
 
 ### Navigating the hierarchy
 
-```ts
+```ts no-check
 getConstituenciesByCounty('nairobi')     // 17
 getWardsByConstituency('Westlands')
 getWardsByCounty('Kiambu')               // 60
@@ -390,7 +390,7 @@ getWardLineage(1389)
 
 ### Nested tree
 
-```ts
+```ts no-check
 const nairobi = getCountyTree('nairobi')
 nairobi.constituencies[0].wards
 
@@ -402,7 +402,7 @@ getTree()   // all 47, fully nested. ~1800 objects, so hoist it out of renders
 Alias-aware and built for type-ahead, with results ranked and labelled by
 level.
 
-```ts
+```ts no-check
 search('kis', { levels: ['county'], limit: 5 })
 search('mbita')       // → Suba North, with matched: 'Mbita'
 search('nairobi', { levels: ['ward'] })
@@ -509,7 +509,7 @@ import counties from 'kenya-regions/data/counties.json' with { type: 'json' }
 
 ## Shape of the data
 
-```ts
+```ts no-check
 interface Country {
   name: { common, official, swahili: { common, official } }
   demonym: string
@@ -537,7 +537,7 @@ interface Country {
 }
 ```
 
-```ts
+```ts no-check
 interface County {
   code: number              // 1–47, constitutional
   name: string

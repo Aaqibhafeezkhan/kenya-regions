@@ -201,7 +201,7 @@
     "test:coverage": "vitest run --coverage",
     "lint": "prettier --check \"{src,scripts,test}/**/*.{ts,mjs}\"",
     "format": "prettier --write \"{src,scripts,test}/**/*.{ts,mjs}\"",
-    "prepublishOnly": "npm run build && npm run typecheck && npm test",
+    "prepublishOnly": "npm run build && npm run typecheck && npm test && npm run test:docs",
     "test:docs": "node scripts/check-docs.mjs"
   },
   "devDependencies": {

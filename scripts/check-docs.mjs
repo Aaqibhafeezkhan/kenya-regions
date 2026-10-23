@@ -53,8 +53,11 @@ try {
       continue
     }
 
-    const pattern =
-      /<div class="code-bar"><span>(.*?)<\/span><\/div>\s*<pre><code([^>]*)>([\s\S]*?)<\/code><\/pre>/gi
+    const pattern = new RegExp(
+      '<div class="code-bar"><span>(.*?)<\\/span><\\/div>\\s*' +
+        '<pre><code([^>]*)>([\\s\\S]*?)<\\/code><\\/pre>',
+      'gi',
+    )
 
     for (const match of content.matchAll(pattern)) {
       const label = match[1].trim().toLowerCase()
@@ -142,9 +145,10 @@ try {
                 diagnostic.file && diagnostic.start !== undefined
                   ? diagnostic.file.getLineAndCharacterOfPosition(diagnostic.start)
                   : null
-              const line = current && position
-                ? current.codeStartLine + position.line
-                : current?.codeStartLine
+              const line =
+                current && position
+                  ? current.codeStartLine + position.line
+                  : current?.codeStartLine
               const message = ts.flattenDiagnosticMessageText(
                 diagnostic.messageText,
                 '\n',

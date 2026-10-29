@@ -677,7 +677,8 @@ footer {
         <p class="kicker">Getting started</p>
         <h2>Quick start</h2>
         <div class="prose">
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import { kenya, counties, getCounty, getWardsByCounty, search } from 'kenya-regions'
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { kenya, counties, getCounty, getWardsByCounty, search } from 'kenya-regions'
 
 kenya.codes.iso3166Alpha2          // 'KE'
 counties.length                    // 47
@@ -794,7 +795,10 @@ search('mbita')[0].region.name     // 'Suba North', found by its former name</co
         <div class="prose">
           <p>Section 48 of the County Governments Act 2012 makes a county’s decentralised units <em>equivalent to the constituencies within it</em>, which is why nearly every Kenyan address form labels the constituency “sub-county”. The national government’s sub-counties are a separate set with different boundaries.</p>
           <p>They overlap heavily but not completely: <strong>248 of the 301 share a name with a constituency, and 53 do not</strong>. Baringo shows the divergence plainly. Six of each, and not the same six:</p>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getSubCountiesByCounty('Baringo').map((s) =&gt; s.name)
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getConstituenciesByCounty, getSubCountiesByCounty } from 'kenya-regions'
+
+getSubCountiesByCounty('Baringo').map((s) =&gt; s.name)
 // Baringo Central, Baringo North, Koibatek, Marigat, Mogotio, Tiaty
 
 getConstituenciesByCounty('Baringo').map((k) =&gt; k.name)
@@ -835,7 +839,8 @@ getConstituenciesByCounty('Baringo').map((k) =&gt; k.name)
           <div class="nest-row"><b>Sub-location <span class="n">7,150</span></b><span class="d">Headed by an Assistant Chief. The level the census enumerates at.</span></div>
         </div>
         <div class="prose">
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import { districts } from 'kenya-regions/districts'
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { districts } from 'kenya-regions/districts'
 import { subLocations } from 'kenya-regions/sublocations'
 
 subLocations[0].population[2009]   // census population
@@ -954,7 +959,8 @@ getCounty('KE-30').name   // 'Nairobi'  ← a different county entirely</code></
         </div>
         <div class="prose">
           <p>Raw JSON is published too, for anyone who wants the data without the API:</p>
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import counties from 'kenya-regions/data/counties.json' with { type: 'json' }</code></pre></div>
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import counties from 'kenya-regions/data/counties.json' with { type: 'json' }</code></pre></div>
         </div>
       </section>
 
@@ -981,7 +987,10 @@ getCounty('KE-30').name   // 'Nairobi'  ← a different county entirely</code></
           <div class="api">
             <p class="sig"><span class="fn">getCounty</span>(query: Query): County | undefined</p>
             <p>Resolves a county by any of its identifiers. Returns <code>undefined</code> rather than guessing.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getCounty(47)              // by constitutional code
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getCounty } from 'kenya-regions'
+
+getCounty(47)              // by constitutional code
 getCounty('047')           // zero-padded works too
 getCounty('KE-30')         // ISO 3166-2
 getCounty('KE047')         // OCHA p-code
@@ -992,7 +1001,10 @@ getCounty('Kampala')       // undefined</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">getConstituency</span>(query: Query): Constituency | undefined</p>
             <p>Resolves a constituency, including by names retired in the 2013 delimitation.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getConstituency('Mbita')    // → Suba North
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getConstituency } from 'kenya-regions'
+
+getConstituency('Mbita')    // → Suba North
 getConstituency('Gwasi')    // → Suba South
 getConstituency('Dujis')    // → Garissa Township
 getConstituency('Kilimani') // → Dagoretti North</code></pre></div>
@@ -1016,7 +1028,10 @@ getConstituency('Kilimani') // → Dagoretti North</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">requireCounty</span> · <span class="fn">requireConstituency</span> · <span class="fn">requireWard</span></p>
             <p>Identical to the <code>get*</code> pair but throw a descriptive error instead of returning <code>undefined</code>. Use these when a missing region is a bug rather than a possibility.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>requireCounty('Kampala')  // throws: Unknown county: "Kampala"</code></pre></div>
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { requireCounty } from 'kenya-regions'
+
+requireCounty('Kampala')  // throws: Unknown county: "Kampala"</code></pre></div>
           </div>
         </div>
       </section>
@@ -1030,7 +1045,10 @@ getConstituency('Kilimani') // → Dagoretti North</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">getConstituenciesByCounty</span>(query): Constituency[]<br><span class="fn">getWardsByConstituency</span>(query): Ward[]<br><span class="fn">getWardsByCounty</span>(query): Ward[]</p>
             <p>Each accepts anything the matching lookup accepts, or the record itself.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getConstituenciesByCounty('nairobi')   // 17
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getConstituenciesByCounty, getWardsByConstituency, getWardsByCounty } from 'kenya-regions'
+
+getConstituenciesByCounty('nairobi')   // 17
 getConstituenciesByCounty('KE-30')     // the same 17
 getWardsByCounty('Kiambu')             // 60
 getWardsByConstituency('Westlands')</code></pre></div>
@@ -1044,7 +1062,10 @@ getWardsByConstituency('Westlands')</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">getWardLineage</span>(query): WardLineage | undefined</p>
             <p>Resolves a ward all the way up in one call. Built for breadcrumbs and address labels.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>const { ward, constituency, county } = getWardLineage(1389)!
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getWardLineage } from 'kenya-regions'
+
+const { ward, constituency, county } = getWardLineage(1389)!
 `${ward.name}, ${constituency.name}, ${county.name} County`
 // 'Woodley/Kenyatta Golf Course, Kibra, Nairobi County'</code></pre></div>
           </div>
@@ -1053,7 +1074,10 @@ getWardsByConstituency('Westlands')</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">subCounties</span>: readonly SubCounty[]<br><span class="fn">getSubCounty</span>(query: string): SubCounty | undefined<br><span class="fn">requireSubCounty</span>(query: string): SubCounty<br><span class="fn">getSubCountiesByCounty</span>(query): SubCounty[]<br><span class="fn">getWardsBySubCounty</span>(slug: string): Ward[]<br><span class="fn">getSubCountyOfWard</span>(query): SubCounty | undefined</p>
             <p>The parallel national-government hierarchy. Sub-counties resolve by slug or name. Names are unique across all 301, so no county scoping is needed.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>subCounties.length                    // 301
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getSubCountiesByCounty, getSubCounty, getSubCountyOfWard, getWardsBySubCounty, subCounties } from 'kenya-regions'
+
+subCounties.length                    // 301
 getSubCounty('koibatek')              // by slug
 getSubCounty('Koibatek')              // by name
 getSubCountiesByCounty('Kericho')     // 6
@@ -1078,7 +1102,10 @@ getSubCountyOfWard(1)                 // Changamwe</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">getCountyTree</span>(query): CountyNode | undefined<br><span class="fn">getTree</span>(): CountyNode[]</p>
             <p>A <code>CountyNode</code> is a county with <code>constituencies</code> attached, each carrying its <code>wards</code>.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>const nairobi = getCountyTree('nairobi')!
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { constituencies, getCountyTree, wards } from 'kenya-regions'
+
+const nairobi = getCountyTree('nairobi')!
 nairobi.constituencies[0].wards</code></pre></div>
             <div class="note warn">
               <p class="note-h">Hoist getTree out of renders</p>
@@ -1096,7 +1123,10 @@ nairobi.constituencies[0].wards</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">getCountiesByProvince</span>(province: ProvinceCode | string): County[]</p>
             <p>Provinces partition the country: every county belongs to exactly one.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getCountiesByProvince('Rift Valley').length  // 14
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getCountiesByProvince } from 'kenya-regions'
+
+getCountiesByProvince('Rift Valley').length  // 14
 getCountiesByProvince('RFT').length          // 14, the code works too</code></pre></div>
           </div>
 
@@ -1127,7 +1157,10 @@ getCountiesByProvince('RFT').length          // 14, the code works too</code></p
           <div class="api">
             <p class="sig"><span class="fn">getAsalCounties</span>(kind?: 'arid' | 'semi-arid'): County[]</p>
             <p>The 23 Arid and Semi-Arid Lands counties: 9 arid and 14 semi-arid, together covering over 80% of Kenya’s land area.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getAsalCounties()            // 23
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getAsalCounties } from 'kenya-regions'
+
+getAsalCounties()            // 23
 getAsalCounties('arid')      // 9
 getAsalCounties('semi-arid') // 14</code></pre></div>
             <p>This is a county-level simplification of something that is really sub-county-level: Kieni in Nyeri and Mbeere in Embu are ASAL areas inside counties that otherwise are not.</p>
@@ -1148,7 +1181,10 @@ getAsalCounties('semi-arid') // 14</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">search</span>(query: string, init?: SearchInit): SearchResult[]</p>
             <p>Alias-aware fuzzy search across all three levels, built for type-ahead inputs. Results are ranked and labelled with the level that matched.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>search('kis', { levels: ['county'], limit: 5 })
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { search } from 'kenya-regions'
+
+search('kis', { levels: ['county'], limit: 5 })
 search('mbita')                      // → Suba North, matched: 'Mbita'
 search('nairobi', { levels: ['ward'] })</code></pre></div>
           </div>
@@ -1178,7 +1214,10 @@ search('nairobi', { levels: ['ward'] })</code></pre></div>
           <div class="api">
             <p class="sig"><span class="fn">countyOptions</span>(init?) · <span class="fn">constituencyOptions</span>(init?) · <span class="fn">wardOptions</span>(init?)</p>
             <p>Each returns <code>{ label, value, region }[]</code>. The <code>region</code> is the full record, so you never have to look it back up after a selection.</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>countyOptions()
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { constituencyOptions, countyOptions, wardOptions } from 'kenya-regions'
+
+countyOptions()
 // [{ label: 'Baringo', value: '30', region: {…} }, …]  alphabetical
 
 countyOptions({ alphabetical: false, valueKey: 'slug' })
@@ -1207,7 +1246,10 @@ wardOptions({ constituency: 'Westlands' })</code></pre></div>
         <div class="prose">
           <div class="api">
             <p class="sig"><span class="fn">countyToIso</span>(query): string | undefined<br><span class="fn">isoToCounty</span>(isoCode: string): County | undefined<br><span class="fn">countyToPcode</span>(query): string | undefined<br><span class="fn">fromPcode</span>(pcode: string): County | Constituency | undefined</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>countyToIso(47)          // 'KE-30'
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { countyToIso, countyToPcode, fromPcode, isoToCounty } from 'kenya-regions'
+
+countyToIso(47)          // 'KE-30'
 isoToCounty('KE-30')     // Nairobi
 countyToPcode(47)        // 'KE047'
 
@@ -1231,7 +1273,8 @@ fromPcode('KE047275')    // Dagoretti North constituency</code></pre></div>
         <h2>The country record</h2>
         <div class="prose">
           <p>Above every subdivision sits <code>kenya</code>: the identifiers the rest of the world uses, and the national figures the subdivisions roll up to.</p>
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import { kenya } from 'kenya-regions'
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { kenya } from 'kenya-regions'
 
 kenya.codes.iso3166Alpha2         // 'KE'    ISO 3166-1
 kenya.codes.iso3166Alpha3         // 'KEN'
@@ -1263,7 +1306,10 @@ kenya.location.boundingBox        // { west, south, east, north }</code></pre></
           <h3>Helpers</h3>
           <div class="api">
             <p class="sig"><span class="fn">toInternationalPhone</span>(input: string): string | undefined<br><span class="fn">formatCurrency</span>(amount: number, options?): string<br><span class="fn">isPostalCode</span>(input: string): boolean</p>
-            <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>toInternationalPhone('0712 345 678')  // '+254712345678'
+            <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { formatCurrency, isPostalCode, toInternationalPhone } from 'kenya-regions'
+
+toInternationalPhone('0712 345 678')  // '+254712345678'
 toInternationalPhone('12345')         // undefined
 formatCurrency(1234.5)                // 'KSh 1,234.50'
 isPostalCode('00100')                 // true</code></pre></div>
@@ -1278,7 +1324,8 @@ isPostalCode('00100')                 // true</code></pre></div>
         <h2>Geometry</h2>
         <div class="prose">
           <p>Coarse county outlines ship with this package, at about 15 KB gzipped. Enough to draw a national map and to answer which county a point falls in.</p>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code data-no-check>import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
+          <div class="code"><div class="code-bar"><span>typescript no-check</span></div>
+<pre><code>import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
 
 map.addSource('counties', { type: 'geojson', data: countyOutlines })
 
@@ -1288,7 +1335,10 @@ locateCounty(51.5, -0.12)                         // undefined, not in Kenya</co
           <p>Arguments are <strong>latitude then longitude</strong>, matching how coordinates are spoken and written, even though GeoJSON stores them the other way round.</p>
 
           <p>Every county record also carries a <code>bbox</code>, so a map can be fitted to a county without loading any geometry at all:</p>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>getCounty('Nairobi').bbox   // [36.663, -1.442, 37.104, -1.158]</code></pre></div>
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getCounty } from 'kenya-regions'
+
+getCounty('Nairobi')!.bbox   // [36.663, -1.442, 37.104, -1.158]</code></pre></div>
 
           <div class="api">
             <p class="sig"><span class="fn">countyOutlines</span>: CountyOutlineCollection<br><span class="fn">locateCounty</span>(lat: number, lng: number): CountyOutline | undefined<br><span class="fn">getCountyOutline</span>(code: number): CountyOutline | undefined<br><span class="fn">outlineContains</span>(outline: CountyOutline, lat: number, lng: number): boolean</p>
@@ -1311,7 +1361,8 @@ locateCounty(51.5, -0.12)                         // undefined, not in Kenya</co
         <p class="kicker">API reference</p>
         <h2>Types</h2>
         <div class="prose">
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>interface County {
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>interface County {
   code: number              // 1–47, constitutional
   name: string
   slug: string
@@ -1370,7 +1421,8 @@ interface SubCounty {
         <h2>Recipes</h2>
         <div class="prose">
           <h3>Dependent county → constituency → ward selects</h3>
-          <div class="code"><div class="code-bar"><span>tsx no-check</span></div><pre><code>const [county, setCounty] = useState&lt;string&gt;()
+          <div class="code"><div class="code-bar"><span>tsx no-check</span></div>
+<pre><code>const [county, setCounty] = useState&lt;string&gt;()
 const [constituency, setConstituency] = useState&lt;string&gt;()
 
 &lt;select onChange={(e) =&gt; { setCounty(e.target.value); setConstituency(undefined) }}&gt;
@@ -1393,7 +1445,10 @@ const [constituency, setConstituency] = useState&lt;string&gt;()
 &lt;/select&gt;</code></pre></div>
 
           <h3>Validating a submitted address</h3>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>function validate(countyCode: number, wardCode: number) {
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { getWardLineage } from 'kenya-regions'
+
+function validate(countyCode: number, wardCode: number) {
   const lineage = getWardLineage(wardCode)
   if (!lineage) return 'Unknown ward'
   if (lineage.county.code !== countyCode) {
@@ -1403,7 +1458,10 @@ const [constituency, setConstituency] = useState&lt;string&gt;()
 }</code></pre></div>
 
           <h3>Joining against a dataset that uses ISO codes</h3>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>// A dataset keyed 'KE-01'…'KE-47' must go through isoToCounty,
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { isoToCounty } from 'kenya-regions'
+
+// A dataset keyed 'KE-01'…'KE-47' must go through isoToCounty,
 // never getCounty(Number(...)): the two numbers are unrelated.
 const rows = external.map((row) =&gt; ({
   ...row,
@@ -1411,7 +1469,10 @@ const rows = external.map((row) =&gt; ({
 }))</code></pre></div>
 
           <h3>Grouping counties for a regional report</h3>
-          <div class="code"><div class="code-bar"><span>typescript no-check</span></div><pre><code>const byProvince = provinces.map((province) =&gt; ({
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import { counties, getCountiesByProvince, provinces } from 'kenya-regions'
+
+const byProvince = provinces.map((province) =&gt; ({
   province: province.name,
   counties: getCountiesByProvince(province.code),
   population: getCountiesByProvince(province.code)
@@ -1481,7 +1542,8 @@ const rows = external.map((row) =&gt; ({
             <p><code>kenya-regions/wards</code> does not bundle the county dataset, so it cannot turn <code>'Kiambu'</code> into a code. Rather than returning an empty array that looks like a county with no wards, it throws and tells you to pass the numeric code or use the main entry.</p>
           </div>
           <p>Raw JSON is published too:</p>
-          <div class="code"><div class="code-bar"><span>typescript</span></div><pre><code>import counties from 'kenya-regions/data/counties.json' with { type: 'json' }</code></pre></div>
+          <div class="code"><div class="code-bar"><span>typescript</span></div>
+<pre><code>import counties from 'kenya-regions/data/counties.json' with { type: 'json' }</code></pre></div>
         </div>
       </section>
 

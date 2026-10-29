@@ -111,7 +111,9 @@ npm run test:docs     # typecheck README and docs TypeScript examples (build fir
 npm run format        # prettier
 ```
 
-Documentation examples are checked against the built package by `npm run test:docs` (run `npm run build` first). In Markdown, append `no-check` to a `ts`/`tsx` fence for an intentionally incomplete or contextual fragment. In `docs/index.html`, append `no-check` to the visible language label inside the block's `code-bar`, for example `typescript no-check`. Prefer adding the imports a reader needs; use `no-check` only when the snippet is illustrative rather than a standalone example.\n\n`npm run build:data` refuses to emit anything that fails its structural checks:
+Documentation examples are checked against the built package by `npm run test:docs` (run `npm run build` first). In Markdown, append `no-check` to a `ts`/`tsx` fence for an intentionally incomplete or contextual fragment. In `docs/index.html`, append `no-check` to the visible language label inside the block's `code-bar`, for example `typescript no-check`. Prefer adding the imports a reader needs; use `no-check` only when the snippet is illustrative rather than a standalone example.
+
+`npm run build:data` refuses to emit anything that fails its structural checks:
 counts, gapless code sequences, referential integrity between levels, and the
 census totals. If your change is wrong, the build tells you before the tests do.
 

@@ -1066,7 +1066,7 @@ getWardsByConstituency('Westlands')</code></pre></div>
 <pre><code>import { getWardLineage } from 'kenya-regions'
 
 const { ward, constituency, county } = getWardLineage(1389)!
-`${ward.name}, ${constituency.name}, ${county.name} County`
+const label = `${ward.name}, ${constituency.name}, ${county.name} County`
 // 'Woodley/Kenyatta Golf Course, Kibra, Nairobi County'</code></pre></div>
           </div>
 
@@ -1215,14 +1215,14 @@ search('nairobi', { levels: ['ward'] })</code></pre></div>
             <p class="sig"><span class="fn">countyOptions</span>(init?) · <span class="fn">constituencyOptions</span>(init?) · <span class="fn">wardOptions</span>(init?)</p>
             <p>Each returns <code>{ label, value, region }[]</code>. The <code>region</code> is the full record, so you never have to look it back up after a selection.</p>
             <div class="code"><div class="code-bar"><span>typescript</span></div>
-<pre><code>import { constituencyOptions, countyOptions, wardOptions } from 'kenya-regions'
+<pre><code>import { constituencyOptions, countyOptions, getConstituency, wardOptions } from 'kenya-regions'
 
 countyOptions()
 // [{ label: 'Baringo', value: '30', region: {…} }, …]  alphabetical
 
 countyOptions({ alphabetical: false, valueKey: 'slug' })
 constituencyOptions({ county: 47 })
-wardOptions({ constituency: 'Westlands' })</code></pre></div>
+wardOptions({ constituency: getConstituency('Westlands')! })</code></pre></div>
           </div>
           <div class="tablewrap" style="max-width:var(--measure)">
             <table>
@@ -1362,7 +1362,9 @@ getCounty('Nairobi')!.bbox   // [36.663, -1.442, 37.104, -1.158]</code></pre></d
         <h2>Types</h2>
         <div class="prose">
           <div class="code"><div class="code-bar"><span>typescript</span></div>
-<pre><code>interface County {
+<pre><code>import type { BlocCode, ProvinceCode } from 'kenya-regions'
+
+interface County {
   code: number              // 1–47, constitutional
   name: string
   slug: string
@@ -1463,6 +1465,7 @@ function validate(countyCode: number, wardCode: number) {
 
 // A dataset keyed 'KE-01'…'KE-47' must go through isoToCounty,
 // never getCounty(Number(...)): the two numbers are unrelated.
+const external: Array&lt;{ iso: string; population: number }&gt; = []
 const rows = external.map((row) =&gt; ({
   ...row,
   county: isoToCounty(row.iso),

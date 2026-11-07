@@ -407,7 +407,7 @@ getWardLineage(1389)
 ```ts
 import { constituencies, getCountyTree, getTree, wards } from 'kenya-regions'
 
-const nairobi = getCountyTree('nairobi')
+const nairobi = getCountyTree('nairobi')!
 nairobi.constituencies[0].wards
 
 getTree()   // all 47, fully nested. ~1800 objects, so hoist it out of renders
@@ -431,14 +431,14 @@ search('nairobi', { levels: ['ward'] })
 The most common reason to install this package.
 
 ```ts
-import { countyOptions, constituencyOptions, wardOptions } from 'kenya-regions'
+import { countyOptions, constituencyOptions, getConstituency, wardOptions } from 'kenya-regions'
 
 countyOptions()
 // [{ label: 'Baringo', value: '30', region: {...} }, ...] alphabetical
 
 countyOptions({ valueKey: 'slug', alphabetical: false })
 constituencyOptions({ county: 47 })
-wardOptions({ constituency: 'Westlands' })
+wardOptions({ constituency: getConstituency('Westlands')! })
 ```
 
 A dependent set of dropdowns is then just:
@@ -556,6 +556,8 @@ interface Country {
 ```
 
 ```ts
+import type { BlocCode, ProvinceCode } from 'kenya-regions'
+
 interface County {
   code: number              // 1–47, constitutional
   name: string

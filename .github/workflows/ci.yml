@@ -41,6 +41,7 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
+      - run: npm run test:docs
 
       # v1 shipped a package.json pointing at a file that was never published,
       # so it broke on install. Prove the published artifact actually imports.

@@ -11,3 +11,6 @@ coverage/
 
 # Launch and outreach notes, local only
 LAUNCH-PLAN.md
+
+# Temporary files created by the documentation typechecker
+.docs-check-*/

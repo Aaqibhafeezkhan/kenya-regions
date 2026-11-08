@@ -84,6 +84,8 @@ international datasets group by:
 the actual datasets rather than typed in, so they cannot drift:
 
 ```ts
+import { kenya, wards } from 'kenya-regions'
+
 kenya.subdivisions.wards                            // 1450
 kenya.legislature.nationalAssembly.total            // 349
 kenya.legislature.senate.total                      // 67
@@ -178,6 +180,8 @@ constituency, and 53 do not.** Baringo shows it plainly. Six of
 each, and not the same six:
 
 ```ts
+import { getConstituenciesByCounty, getSubCountiesByCounty } from 'kenya-regions'
+
 getSubCountiesByCounty('Baringo').map((s) => s.name)
 // Baringo Central, Baringo North, Koibatek, Marigat, Mogotio, Tiaty
 
@@ -186,7 +190,7 @@ getConstituenciesByCounty('Baringo').map((k) => k.name)
 ```
 
 ```ts
-import { subCounties, getSubCountiesByCounty, getWardsBySubCounty } from 'kenya-regions'
+import { subCounties, getSubCountiesByCounty, getWardsBySubCounty, getSubCountyOfWard } from 'kenya-regions'
 
 subCounties.length                     // 301
 getWardsBySubCounty('koibatek')        // full ward records
@@ -282,8 +286,10 @@ geographically.** They are not the same number:
 | Nairobi | `47` | `KE-30` |
 
 ```ts
-getCounty(30).name        // 'Baringo'
-getCounty('KE-30').name   // 'Nairobi'  ← different county
+import { getCounty } from 'kenya-regions'
+
+getCounty(30)!.name        // 'Baringo'
+getCounty('KE-30')!.name   // 'Nairobi'  ← different county
 ```
 
 Both are on every county record as `code` and `isoCode`, and `isoToCounty()`
@@ -300,6 +306,8 @@ These *do* follow the constitutional numbering: `KE047` is Nairobi county and
 `KE047275` is Dagoretti North.
 
 ```ts
+import { fromPcode } from 'kenya-regions'
+
 fromPcode('KE047')     // Nairobi county
 fromPcode('KE047275')  // Dagoretti North constituency
 ```
@@ -323,6 +331,8 @@ response and food security programming. 23 counties are ASAL: 9 arid and 14
 semi-arid. They cover over 80% of Kenya's land area.
 
 ```ts
+import { getAsalCounties } from 'kenya-regions'
+
 getAsalCounties().length          // 23
 getAsalCounties('arid').length    // 9
 ```
@@ -360,6 +370,8 @@ import { countiesByName } from 'kenya-regions'   // alphabetical, for UIs
 ISO code, p-code, name, slug or former name.
 
 ```ts
+import { getConstituency, getCounty, getWard } from 'kenya-regions'
+
 getCounty(47), getCounty('047'), getCounty('KE-30'), getCounty('KE047'),
 getCounty('Nairobi'), getCounty('nairobi'), getCounty('Nairobi City')
 // → all the same county
@@ -374,6 +386,8 @@ Each has a `require*` variant that throws instead of returning `undefined`:
 ### Navigating the hierarchy
 
 ```ts
+import { getConstituenciesByCounty, getConstituencyOfWard, getCountyOfConstituency, getSubCountiesByCounty, getSubCountyOfWard, getWardLineage, getWardsByConstituency, getWardsByCounty, getWardsBySubCounty } from 'kenya-regions'
+
 getConstituenciesByCounty('nairobi')     // 17
 getWardsByConstituency('Westlands')
 getWardsByCounty('Kiambu')               // 60
@@ -391,7 +405,9 @@ getWardLineage(1389)
 ### Nested tree
 
 ```ts
-const nairobi = getCountyTree('nairobi')
+import { constituencies, getCountyTree, getTree, wards } from 'kenya-regions'
+
+const nairobi = getCountyTree('nairobi')!
 nairobi.constituencies[0].wards
 
 getTree()   // all 47, fully nested. ~1800 objects, so hoist it out of renders
@@ -403,6 +419,8 @@ Alias-aware and built for type-ahead, with results ranked and labelled by
 level.
 
 ```ts
+import { search } from 'kenya-regions'
+
 search('kis', { levels: ['county'], limit: 5 })
 search('mbita')       // → Suba North, with matched: 'Mbita'
 search('nairobi', { levels: ['ward'] })
@@ -413,19 +431,19 @@ search('nairobi', { levels: ['ward'] })
 The most common reason to install this package.
 
 ```ts
-import { countyOptions, constituencyOptions, wardOptions } from 'kenya-regions'
+import { countyOptions, constituencyOptions, getConstituency, wardOptions } from 'kenya-regions'
 
 countyOptions()
 // [{ label: 'Baringo', value: '30', region: {...} }, ...] alphabetical
 
 countyOptions({ valueKey: 'slug', alphabetical: false })
 constituencyOptions({ county: 47 })
-wardOptions({ constituency: 'Westlands' })
+wardOptions({ constituency: getConstituency('Westlands')! })
 ```
 
 A dependent set of dropdowns is then just:
 
-```tsx
+```tsx no-check
 const [county, setCounty] = useState<string>()
 const [constituency, setConstituency] = useState<string>()
 
@@ -509,7 +527,7 @@ import counties from 'kenya-regions/data/counties.json' with { type: 'json' }
 
 ## Shape of the data
 
-```ts
+```ts no-check
 interface Country {
   name: { common, official, swahili: { common, official } }
   demonym: string
@@ -538,6 +556,8 @@ interface Country {
 ```
 
 ```ts
+import type { BlocCode, ProvinceCode } from 'kenya-regions'
+
 interface County {
   code: number              // 1–47, constitutional
   name: string
@@ -659,7 +679,7 @@ updated.
 Coarse county outlines ship here, at about 15 KB gzipped. Enough to draw a
 national map and to answer which county a point is in:
 
-```ts
+```ts no-check
 import { countyOutlines, locateCounty } from 'kenya-regions/outlines'
 
 map.addSource('counties', { type: 'geojson', data: countyOutlines })
